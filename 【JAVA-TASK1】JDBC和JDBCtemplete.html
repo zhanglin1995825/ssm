@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>葡萄藤PPT</title>
+
+    <link rel="stylesheet" href="https://ptteng.github.io/PPT/css/reveal/reveal.css">
+
+    <!-- PPT主题，可以在/css/reveal/theme/中选择其他主题，目前暂时只能使用该模板 -->
+    <link rel="stylesheet" href="https://ptteng.github.io/PPT/css/reveal/theme/ptt.css">
+
+    <!-- syntax highlighting 代码高亮主题 -->
+    <link rel="stylesheet" href="https://ptteng.github.io/PPT/lib/reveal/css/zenburn.css">
+
+    <!-- 打印和PDF输出样式 -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'https://ptteng.github.io/PPT/css/reveal/print/pdf.css' : '../css/reveal/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+</head>
+<body>
+<img src="https://ptteng.github.io/PPT/img/demo/logo.png" alt="" usemap="#pttmap" class="base-logo">
+<map name="pttmap">
+    <area shape="rect" coords="0,0,276,58" href="http://www.jnshu.com" alt="" target="_blank"/>
+</map>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>【JAVA-TASK1】为什么要用Log4j来替代System.out.println</h2>
+            <p></p>
+           
+            <p>成都分院:张麟</p>
+        </section>
+        <section>
+            <p>1.背景介绍</p>
+            <p>2.知识剖析</p>
+            <p>3.常见问题</p>
+            <p>4.解决方案</p>
+            <p>5.编码实战</p>
+            <p>6.扩展思考</p>
+            <p>7.参考文献</p>
+            <p>8.更多讨论</p>
+        </section>
+        <section>
+            <h3>1.背景介绍</h3>
+        </section>
+ 
+        <section>
+         <p>Log4j就是程序运行时出现错误用来查报错，和一些逻辑错误</p>
+         <p>它方便编写，设置灵活，可以以多种方式输出：比如控制台，文件邮箱等</p>
+         </section>
+        <section>
+            <p>此外通过Log4j其他语言接口，我们可以在C、C++程序中使用Log4j，语法和用法与在Java程序中一样</p>
+            <p>同时JDBC也被约定为j2ee13大规范之一</p>
+        </section>
+		<section>
+            <p>方便配置</p>
+            <p>使用灵活</p>
+            <p>查看方便</p>
+        </section>
+        <section>
+            <p>不适用system.out.println原因：</p>
+            <p>1.log4j可以分级，方便设置输出方式多样，可控性高。system.out.println打印的东西设置不方便，</p>
+            <p>2.如果不需要启用system的时候，只能注释掉，需要的时候又要一行行的恢复，而log4j只需要一个配置文件就可以搞定，管理方便</p>
+        </section>
+		<section>
+            <h3>2.知识剖析</h3>
+        </section>
+        <section>
+        <p>
+            Log4j有三个主要的组件：Loggers(记录器)，Appenders (输出源)和Layouts(布局)。
+            这里可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。
+        </p>
+        </section>
+		 <section>
+		  <p>Loggers</p>
+            <p>Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WARN、ERROR和FATAL。
+                这五个级别是有顺序的，DEBUG < INFO < WARN < ERROR < FATAL，分别用来指定这条日志信息的重要程度。
+                Log4j有一个规则：只输出级别不低于设定级别的日志信息。</p>
+        </section>
+        <section>
+            <p>Appenders</p>
+            <p>org.apache.log4j.ConsoleAppender（控制台）
+                org.apache.log4j.FileAppender（文件）
+                org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）
+                org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）
+            </p>
+        </section>
+		 <section>
+            <p>Layouts</p>
+			<p>有时用户希望根据自己的喜好格式化自己的日志输出，Log4j可以在Appenders的后面附加Layouts来完成这个功能。
+                Layouts提供四种日志输出样式，如根据HTML样式、自由指定样式、包含日志级别与信息的样式和包含日志时间、线程、类别等信息的样式</p>
+             <p>
+                 org.apache.log4j.HTMLLayout（以HTML表格形式布局）
+                 org.apache.log4j.PatternLayout（可以灵活地指定布局模式）
+                 org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串）
+                 org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等信息）
+             </p>
+         </section>
+        <section>
+             <p>
+                 PatternLayout
+                 参数
+                 说明
+                 %m
+                 message输出的日志消息
+                 %n
+                 new line換行
+                 %d
+                 datetime当前运行时间
+                 %r
+                 run time程序从开始到当前语句时所花时间（毫秒）
+                 %t
+                 thread id当前线程ID
+                 %p
+                 priority日志优先级（DEBUG、INFO、WARN……）
+                 %c
+                 class日志对象的名称
+                 %L
+                 输出语句所在的行号
+                 %F
+                 输出语句所在的文件名
+                 %-数字
+                 表示该项的最小长度，如果不够，用空格填充
+                 %x
+                 按NDC顺序输出日志
+                 %X
+                 按MDC输出日志
+             </p>
+        </section>
+        <section>
+           <p>log4j依赖配置</p>
+           <p>
+               <dependency>
+                   <groupId>log4j</groupId>
+                   <artifactId>log4j</artifactId>
+                   <version>1.2.17</version>
+               </dependency>
+           </p>
+
+        </section>
+
+       <section>
+            <h3>3.常见问题</h3>
+       </section>
+       		
+		<section>
+            <p>(2)log4j是否会影响性能？</p>
+
+            <p> 是的，log4j会拖慢进程响应时间</p>
+            <p>1.日志输出目的地：例如把日志输出到控制台的速度和输出到文件系统的速度是不一样的。</p>
+
+            <p>  2.日志输出格式：例如采用SimpleLayout输出日志消息比采用Patternlayout简单，因此速度更快。</p>
+
+
+            <p>3.日志级别：日志级别设置得越低，输出的日志内容越多，对性能的影响越大。</p>
+              <p>什么情况使用log4j、什么情况下使用System.out.println?</p>
+            <p>System.out.println在开发中可以使用，部署项目后用日志文件。最好不要用System.out.println。</p>
+
+        </section>
+        <section>
+            <h3>4.解决方案</h3>
+            <p>log4j日志输出性能优化</p>
+            <p>log4j.appender.rollingFile.MaxFileSize=200KB</p>
+            <p>log4j.appender.rollingFile.MaxBackupIndex=50</p>
+
+            <p> log4j.appender.monitorAppender.BufferedIO=true</p>
+            <p> log4j.appender.monitorAppender.BufferSize=8192</p>
+        </section>
+
+        <section>
+            <h3>5.编码实战</h3>
+        </section>
+
+        <section>
+        	<h3>6.扩展思考</h3>
+            <p>log4j调优设置输出方式异步方式</p>
+        </section>
+
+
+
+        <section>
+            <h3>7.参考文献</h3>
+            <p>http://www.cnblogs.com/ITtangtang/p/3926665.html</p>
+            <p>https://www.jianshu.com/p/0427c2666657</p>
+        </section>
+        <section>
+            <h3>8.更多讨论</h3>
+        </section>
+		
+		<section>
+         <p></p>
+		</section>
+
+        <section>
+            <h3>9.鸣谢</h3>
+        </section>
+
+        <!--<section>-->
+            <!--<p>感谢李伟川、徐铭培师兄，此教程是在他们之前技术分享的基础上完善而成</p>-->
+            <!--<p></p>-->
+        <!--</section>-->
+        <section>
+            <h4>谢谢观看</h4>
+            <p></p>
+            <p><small>By:张麟</small></p>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://ptteng.github.io/PPT/lib/reveal/js/head.min.js"></script>
+<script src="https://ptteng.github.io/PPT/lib/reveal/reveal.js"></script>
+
+<script>
+    // 以下为常见配置属性的默认值
+    // {
+    //  controls: true, // 是否在右下角展示控制条
+    //  progress: true, // 是否显示演示的进度条
+    //  slideNumber: false, // 是否显示当前幻灯片的页数编号，也可以使用代码slideNumber: 'c / t' ，表示当前页/总页数。
+    //  history: false, // 是否将每个幻灯片改变加入到浏览器的历史记录中去
+    //  keyboard: true, // 是否启用键盘快捷键来导航
+    //  overview: true, // 是否启用幻灯片的概览模式，可使用"Esc"或"o"键来切换概览模式
+    //  center: true, // 是否将幻灯片垂直居中
+    //  touch: true, // 是否在触屏设备上启用触摸滑动切换
+    //  loop: false, // 是否循环演示
+    //  rtl: false, // 是否将演示的方向变成RTL，即从右往左
+    //  fragments: true, // 全局开启和关闭碎片。
+    //  autoSlide: 0, // 两个幻灯片之间自动切换的时间间隔（毫秒），当设置成 0 的时候则禁止自动切换，该值可以被幻灯片上的 ` data-autoslide` 属性覆盖
+    //  transition: 'default', // 切换过渡效果，有none/fade/slide/convex/concave/zoom
+    //  transitionSpeed: 'default', // 过渡速度，default/fast/slow
+    //  mouseWheel: true, //是否启用通过鼠标滚轮来切换幻灯片
+    // }
+    // 初始化幻灯片
+    Reveal.initialize({
+        history: true,
+        dependencies: [
+            { src: 'https://ptteng.github.io/PPT/plugin/markdown/marked.js' },
+            { src: 'https://ptteng.github.io/PPT/plugin/markdown/markdown.js' },
+            { src: 'https://ptteng.github.io/PPT/plugin/notes/notes.js', async: true },
+            { src: 'https://ptteng.github.io/PPT/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+    });
+</script>
+</body>
+</html>
