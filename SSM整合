@@ -1,0 +1,4 @@
+spring和springMVC是天然集成,所以只需要解决mybatis和spring整合的问题 , 中间项目mybatis-spring项目进行整合
+
+由spring容器管理mybatis和mapper.
+由spring利用声明式事物(==AOP==)进行事物综合管理.
